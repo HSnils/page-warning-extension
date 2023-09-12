@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Page warning extension",
+  "version": "1.0",
+  "description": "Blink the screen red on specific URLs.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/16.png",
+      "48": "images/48.png",
+      "128": "images/128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],  // You can specify specific URLs here
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+       "16": "images/16.png",
+      "48": "images/48.png",
+      "128": "images/128.png"
+  }
+}
