@@ -2,7 +2,7 @@ import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
 import {
   useIsWarningActiveQuery,
   useToggleWarningActiveMutation,
-} from "./hooks";
+} from "../hooks";
 
 export const ToggleWarning = () => {
   const isWarningActiveQuery = useIsWarningActiveQuery();

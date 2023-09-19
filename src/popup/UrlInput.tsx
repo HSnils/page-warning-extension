@@ -9,7 +9,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useAddUrlMutation, useUrlsQuery } from "./hooks";
+import { useAddUrlMutation, useUrlsQuery } from "../hooks";
 
 export const UrlInput = () => {
   const [url, setUrl] = useState("");

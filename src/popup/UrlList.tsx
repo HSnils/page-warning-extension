@@ -8,7 +8,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useRemoveUrlMutation, useUrlsQuery } from "./hooks";
+import { useRemoveUrlMutation, useUrlsQuery } from "../hooks";
 
 export const UrlList = () => {
   const urlsQuery = useUrlsQuery();
