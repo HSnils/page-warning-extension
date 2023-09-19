@@ -1,0 +1,11 @@
+#page-warning-extension_banner-warning {
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+  background-color: darkred;
+  border-radius: 0;
+  border: 0;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+}

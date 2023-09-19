@@ -23,7 +23,7 @@ const manifest = defineManifest({
   content_scripts: [
     {
       matches: ["<all_urls>"],
-      js: ["src/content/content.ts"],
+      js: ["src/content/index.tsx"],
     },
   ],
 });
