@@ -12,7 +12,8 @@ const icons = {
 
 const manifest = defineManifest({
   manifest_version: 3,
-  name: packageJson.name,
+  name: "Page warnings",
+  description: packageJson.description,
   version: packageJson.version,
   permissions: ["storage"],
   action: {
