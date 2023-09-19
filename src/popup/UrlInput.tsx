@@ -30,21 +30,19 @@ export const UrlInput = () => {
               onChange={(event) => setUrl(event.target.value)}
             />
             <InputRightElement width="2.5rem">
-              {canAddUrl && (
-                <IconButton
-                  type="submit"
-                  disabled={!canAddUrl}
-                  colorScheme="teal"
-                  aria-label="Add url"
-                  size="xs"
-                  icon={<AddIcon />}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    addUrl(url);
-                    setUrl("");
-                  }}
-                />
-              )}
+              <IconButton
+                type="submit"
+                isDisabled={!canAddUrl}
+                colorScheme="teal"
+                aria-label="Add url"
+                size="xs"
+                icon={<AddIcon />}
+                onClick={(e) => {
+                  e.preventDefault();
+                  addUrl(url);
+                  setUrl("");
+                }}
+              />
             </InputRightElement>
           </InputGroup>
 
