@@ -26,11 +26,15 @@ export const UrlList = () => {
   }
 
   return (
-    <List ref={animatonRef}>
+    <List ref={animatonRef} className="urlList">
       {urlsQuery.data.map((url: string) => (
         <ListItem key={url}>
-          <ListIcon as={LinkIcon} color="green.500" />
-          {url}
+          <div className="url-item-wrapper">
+            <ListIcon as={LinkIcon} color="green.500" />
+            <span className="url-item-text" title={url}>
+              {url}
+            </span>
+          </div>
           <IconButton
             aria-label="Remove url"
             onClick={() => {

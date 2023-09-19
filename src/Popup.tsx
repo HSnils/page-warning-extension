@@ -7,9 +7,9 @@ import { UrlList } from "./UrlList";
 function Popup() {
   return (
     <>
+      <ToggleColorMode />
       <UrlInput />
       <UrlList />
-      <ToggleColorMode />
       <ToggleWarning />
     </>
   );

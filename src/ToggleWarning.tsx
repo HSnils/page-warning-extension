@@ -17,6 +17,11 @@ export const ToggleWarning = () => {
         id="page-warning"
         isChecked={isWarningActiveQuery.data}
         onChange={() => toggleWarning()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            toggleWarning();
+          }
+        }}
       />
     </FormControl>
   );
