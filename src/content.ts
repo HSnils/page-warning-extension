@@ -1,7 +1,7 @@
 chrome.storage.sync.get(["urls", "isWarningActive"]).then((result) => {
   const urls = result.urls;
   const currentUrl = window.location.href;
-  const isUrlMatch = urls.some((url) => currentUrl.includes(url));
+  const isUrlMatch = urls.some((url: string) => currentUrl.includes(url));
   const isWarningActive = result.isWarningActive;
 
   if (isUrlMatch) {

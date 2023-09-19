@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { type State } from "./extensionState";
 
 const URLS_KEY = "urls";
 const IS_WARNING_ACTIVE_KEY = "isWarningActive";
@@ -7,10 +8,11 @@ export const useUrlsQuery = () => {
   return useQuery(
     [URLS_KEY],
     async () => {
-      const storageResult = (await chrome.storage.sync.get([
-        URLS_KEY,
-      ])) as Record<typeof URLS_KEY, string[]>;
-      return storageResult.urls ?? [];
+      const storageResult = (await chrome.storage.sync.get([URLS_KEY])) as Pick<
+        State,
+        "urls"
+      >;
+      return storageResult.urls.sort((a, b) => a.localeCompare(b)) ?? [];
     },
     {
       initialData: [],
@@ -32,7 +34,10 @@ export const useAddUrlMutation = () => {
       return newUrl;
     },
     onSuccess: (newUrl) => {
-      queryClient.setQueryData([URLS_KEY], [...urls, newUrl]);
+      queryClient.setQueryData(
+        [URLS_KEY],
+        [...urls, newUrl].sort((a, b) => a.localeCompare(b)),
+      );
     },
   });
 };
@@ -65,7 +70,7 @@ export const useIsWarningActiveQuery = () => {
     async () => {
       const storageResult = (await chrome.storage.sync.get([
         IS_WARNING_ACTIVE_KEY,
-      ])) as Record<typeof IS_WARNING_ACTIVE_KEY, boolean>;
+      ])) as Pick<State, "isWarningActive">;
 
       return storageResult.isWarningActive ?? false;
     },

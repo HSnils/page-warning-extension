@@ -27,8 +27,8 @@ export const UrlList = () => {
 
   return (
     <List ref={animatonRef}>
-      {urlsQuery.data?.map((url: string) => (
-        <ListItem>
+      {urlsQuery.data.map((url: string) => (
+        <ListItem key={url}>
           <ListIcon as={LinkIcon} color="green.500" />
           {url}
           <IconButton
