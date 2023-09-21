@@ -11,10 +11,11 @@ export const ToggleWarning = () => {
   return (
     <FormControl display="flex" alignItems="center">
       <FormLabel htmlFor="page-warning" mb="0">
-        Toggle page warning
+        Toggle warning
       </FormLabel>
       <Switch
         id="page-warning"
+        colorScheme="teal"
         isChecked={isWarningActiveQuery.data}
         onChange={() => toggleWarning()}
         onKeyDown={(e) => {
