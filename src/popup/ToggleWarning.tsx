@@ -1,11 +1,10 @@
 import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
-import {
-  useIsWarningActiveQuery,
-  useToggleWarningActiveMutation,
-} from "../hooks";
+import { useToggleWarningActiveMutation, useWarningQuery } from "../hooks";
 
 export const ToggleWarning = () => {
-  const isWarningActiveQuery = useIsWarningActiveQuery();
+  const {
+    data: { isActive },
+  } = useWarningQuery();
   const { mutate: toggleWarning } = useToggleWarningActiveMutation();
 
   return (
@@ -16,7 +15,7 @@ export const ToggleWarning = () => {
       <Switch
         id="page-warning"
         colorScheme="teal"
-        isChecked={isWarningActiveQuery.data}
+        isChecked={isActive}
         onChange={() => toggleWarning()}
         onKeyDown={(e) => {
           if (e.key === "Enter") {

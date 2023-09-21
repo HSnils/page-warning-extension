@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type State } from "./extensionState";
 
 const URLS_KEY = "urls";
-const IS_WARNING_ACTIVE_KEY = "isWarningActive";
+const WARNING_KEY = "warning";
 
 export const useUrlsQuery = () => {
   return useQuery(
@@ -10,7 +10,7 @@ export const useUrlsQuery = () => {
     async () => {
       const storageResult = (await chrome.storage.sync.get([URLS_KEY])) as Pick<
         State,
-        "urls"
+        typeof URLS_KEY
       >;
       return storageResult.urls.sort((a, b) => a.localeCompare(b)) ?? [];
     },
@@ -30,7 +30,7 @@ export const useAddUrlMutation = () => {
         throw new Error("Invalid URL");
       }
 
-      chrome.storage.sync.set({ urls: [...urls, newUrl] });
+      chrome.storage.sync.set({ [URLS_KEY]: [...urls, newUrl] });
       return newUrl;
     },
     onSuccess: (newUrl) => {
@@ -52,7 +52,7 @@ export const useRemoveUrlMutation = () => {
       if (index !== -1) {
         urls.splice(index, 1);
 
-        chrome.storage.sync.set({ urls });
+        chrome.storage.sync.set({ [URLS_KEY]: urls });
         return urls;
       }
     },
@@ -64,35 +64,41 @@ export const useRemoveUrlMutation = () => {
   });
 };
 
-export const useIsWarningActiveQuery = () => {
-  return useQuery(
-    [IS_WARNING_ACTIVE_KEY],
+export const useWarningQuery = () => {
+  return useQuery<State[typeof WARNING_KEY]>(
+    [WARNING_KEY],
     async () => {
       const storageResult = (await chrome.storage.sync.get([
-        IS_WARNING_ACTIVE_KEY,
-      ])) as Pick<State, "isWarningActive">;
-
-      return storageResult.isWarningActive ?? false;
+        WARNING_KEY,
+      ])) as Pick<State, typeof WARNING_KEY>;
+      return storageResult.warning;
     },
     {
-      initialData: false,
+      initialData: {
+        isActive: false,
+        warningType: "banner",
+      },
     },
   );
 };
 
 export const useToggleWarningActiveMutation = () => {
   const queryClient = useQueryClient();
-  const queryActiveQuery = useIsWarningActiveQuery();
-  return useMutation<boolean>({
+  const warningQuery = useWarningQuery();
+
+  return useMutation<State[typeof WARNING_KEY]>({
     mutationFn: async () => {
-      const newValue = !queryActiveQuery.data;
-      chrome.storage.sync.set({
-        isWarningActive: newValue,
-      });
-      return newValue;
+      const newValue = !warningQuery.data.isActive;
+      const warning: State[typeof WARNING_KEY] = {
+        ...warningQuery.data,
+        isActive: newValue,
+      };
+      chrome.storage.sync.set({ [WARNING_KEY]: warning });
+
+      return warning;
     },
-    onSuccess: (newValue) => {
-      queryClient.setQueryData([IS_WARNING_ACTIVE_KEY], newValue);
+    onSuccess: (newWarningData) => {
+      queryClient.setQueryData([WARNING_KEY], newWarningData);
     },
   });
 };

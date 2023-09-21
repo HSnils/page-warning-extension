@@ -1,4 +1,9 @@
 export type State = {
   urls: string[];
-  isWarningActive: false;
+  warning: {
+    isActive: boolean;
+    warningType: WarningType;
+  };
 };
+
+type WarningType = "banner";

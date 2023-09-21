@@ -1,8 +1,10 @@
-import { useIsWarningActiveQuery, useUrlsQuery } from "../hooks";
+import { useUrlsQuery, useWarningQuery } from "../hooks";
 import { BannerWarning } from "./warnings/bannerWarning/BannerWarning";
 
 export const Content = () => {
-  const { data: isWarningActive } = useIsWarningActiveQuery();
+  const {
+    data: { isActive: isWarningActive },
+  } = useWarningQuery();
   const { data: urls } = useUrlsQuery();
 
   const currentUrl = window.location.href;
