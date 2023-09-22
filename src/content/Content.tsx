@@ -1,18 +1,38 @@
+import { useEffect } from "react";
 import { useUrlsQuery, useWarningQuery } from "../hooks";
+import { isUrlsMatchingWithCurrentUrl } from "../utils";
 import { BannerWarning } from "./warnings/bannerWarning/BannerWarning";
+import BorderWarning from "./warnings/borderWarning/BorderWarning";
 
 export const Content = () => {
   const {
-    data: { isActive: isWarningActive },
+    data: { isActive: isWarningActive, warningType },
+    refetch: refetchWarning,
   } = useWarningQuery();
-  const { data: urls } = useUrlsQuery();
+  const { data: urls, refetch: refetchUrls } = useUrlsQuery();
 
-  const currentUrl = window.location.href;
-  const isUrlMatch = urls.some((url: string) => currentUrl.includes(url));
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener(function (request) {
+      if (request.warning) {
+        refetchWarning();
+      }
 
+      if (request.urls) {
+        refetchUrls();
+      }
+    });
+  }, [refetchUrls, refetchWarning]);
+
+  const isUrlMatch = isUrlsMatchingWithCurrentUrl(urls);
   if (!isUrlMatch || !isWarningActive) {
     return null;
   }
 
-  return <BannerWarning />;
+  switch (warningType) {
+    case "border":
+      return <BorderWarning />;
+    case "banner":
+    default:
+      return <BannerWarning />;
+  }
 };

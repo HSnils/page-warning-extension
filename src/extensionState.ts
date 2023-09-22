@@ -3,7 +3,10 @@ export type State = {
   warning: {
     isActive: boolean;
     warningType: WarningType;
+    color: string;
   };
 };
 
-type WarningType = "banner";
+export const WARNING_TYPES = ["banner", "border"] as const;
+
+type WarningType = (typeof WARNING_TYPES)[number];

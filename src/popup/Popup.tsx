@@ -1,3 +1,5 @@
+import { Box, Divider } from "@chakra-ui/react";
+import { CustomizeBannerDrawer } from "./CustomizeBannerDrawer";
 import "./Popup.css";
 import { ToggleColorMode } from "./ToggleColorMode";
 import { ToggleWarning } from "./ToggleWarning";
@@ -10,7 +12,11 @@ function Popup() {
       <ToggleColorMode />
       <UrlInput />
       <UrlList />
-      <ToggleWarning />
+      <Divider marginTop="auto" />
+      <Box display="flex" justifyContent="space-between" paddingTop="0.5rem">
+        <ToggleWarning />
+        <CustomizeBannerDrawer />
+      </Box>
     </>
   );
 }

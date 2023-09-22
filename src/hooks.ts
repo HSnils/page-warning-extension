@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type State } from "./extensionState";
+import { getCurrentTabId, isExecutedFromPopup } from "./utils";
 
 const URLS_KEY = "urls";
 const WARNING_KEY = "warning";
@@ -16,6 +17,7 @@ export const useUrlsQuery = () => {
     },
     {
       initialData: [],
+      refetchOnWindowFocus: false,
     },
   );
 };
@@ -30,14 +32,21 @@ export const useAddUrlMutation = () => {
         throw new Error("Invalid URL");
       }
 
-      chrome.storage.sync.set({ [URLS_KEY]: [...urls, newUrl] });
-      return newUrl;
+      const newUrls = [...urls, newUrl].sort((a, b) => a.localeCompare(b));
+      chrome.storage.sync.set({ [URLS_KEY]: newUrls });
+      return newUrls;
     },
-    onSuccess: (newUrl) => {
-      queryClient.setQueryData(
-        [URLS_KEY],
-        [...urls, newUrl].sort((a, b) => a.localeCompare(b)),
-      );
+    onSuccess: async (newUrls) => {
+      queryClient.setQueryData([URLS_KEY], newUrls);
+
+      if (isExecutedFromPopup()) {
+        const tabId = await getCurrentTabId();
+        if (tabId) {
+          chrome.tabs.sendMessage(tabId, {
+            [URLS_KEY]: newUrls,
+          });
+        }
+      }
     },
   });
 };
@@ -56,9 +65,18 @@ export const useRemoveUrlMutation = () => {
         return urls;
       }
     },
-    onSuccess: (mutationResponse) => {
+    onSuccess: async (mutationResponse) => {
       if (mutationResponse) {
         queryClient.setQueryData([URLS_KEY], mutationResponse);
+      }
+
+      if (isExecutedFromPopup()) {
+        const tabId = await getCurrentTabId();
+        if (tabId) {
+          chrome.tabs.sendMessage(tabId, {
+            [URLS_KEY]: mutationResponse,
+          });
+        }
       }
     },
   });
@@ -77,9 +95,44 @@ export const useWarningQuery = () => {
       initialData: {
         isActive: false,
         warningType: "banner",
+        color: "#9e2424",
       },
+      refetchOnWindowFocus: false,
     },
   );
+};
+
+export const useMutateWarning = () => {
+  const queryClient = useQueryClient();
+  const warningQuery = useWarningQuery();
+
+  return useMutation<
+    State[typeof WARNING_KEY],
+    unknown,
+    Partial<State[typeof WARNING_KEY]>
+  >({
+    mutationFn: async (partialWarningObject) => {
+      const warning: State[typeof WARNING_KEY] = {
+        ...warningQuery.data,
+        ...partialWarningObject,
+      };
+      chrome.storage.sync.set({ [WARNING_KEY]: warning });
+
+      return warning;
+    },
+    onSuccess: async (newWarningData) => {
+      queryClient.setQueryData([WARNING_KEY], newWarningData);
+
+      if (isExecutedFromPopup()) {
+        const tabId = await getCurrentTabId();
+        if (tabId) {
+          chrome.tabs.sendMessage(tabId, {
+            [WARNING_KEY]: newWarningData,
+          });
+        }
+      }
+    },
+  });
 };
 
 export const useToggleWarningActiveMutation = () => {
@@ -97,8 +150,17 @@ export const useToggleWarningActiveMutation = () => {
 
       return warning;
     },
-    onSuccess: (newWarningData) => {
+    onSuccess: async (newWarningData) => {
       queryClient.setQueryData([WARNING_KEY], newWarningData);
+
+      if (isExecutedFromPopup()) {
+        const tabId = await getCurrentTabId();
+        if (tabId) {
+          chrome.tabs.sendMessage(tabId, {
+            [WARNING_KEY]: newWarningData,
+          });
+        }
+      }
     },
   });
 };
