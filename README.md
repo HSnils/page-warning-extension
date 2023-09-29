@@ -8,7 +8,7 @@ Currently the extention is not added to the store and as such we have to install
 
 1. Clone the repository
 1. Go to directory where you cloned
-1. run `pnpm install && pnpm build`
+1. run `bun install && bun run build`
 1. Go to [chrome://extensions/](chrome://extensions/)
 1. Turn on developer mode in top right corner
 1. Click the "Load unpacked" button in the top left corner
