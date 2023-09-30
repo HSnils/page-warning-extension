@@ -1,6 +1,20 @@
-# Page warning extension
+# ![icon](./public/icons/16.png) Page warning extension
 
 An extention for chrome to add custom warning to a page matching an url
+
+## Add url and customize colors
+
+![example](./examples/popup_example.png)
+
+Add the urls or text that matches the webpages you want the alert to appear on.
+
+You can also toggle the warning on or off.
+
+## Banner warning (default)
+
+![banner warning example](./examples/banner_warning_example.png)
+
+The default warning type, will add a banner warning to the top of a page. Able to change color using the customization feature
 
 ## How to install
 
