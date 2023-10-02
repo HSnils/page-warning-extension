@@ -2,7 +2,6 @@ import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 
 import { crx, defineManifest } from "@crxjs/vite-plugin";
-import checker from "vite-plugin-checker";
 import packageJson from "./package.json";
 
 const icons = {
@@ -36,6 +35,5 @@ export default defineConfig({
     crx({
       manifest,
     }),
-    checker({ typescript: true }),
   ],
 });
