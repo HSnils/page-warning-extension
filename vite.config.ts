@@ -16,8 +16,7 @@ const manifest = defineManifest({
   name: "Page warnings",
   description: packageJson.description,
   version: packageJson.version,
-  permissions: ["storage", "scripting"],
-  host_permissions: ["https://*/*"],
+  permissions: ["storage"],
   action: {
     default_popup: "index.html",
     default_icon: icons,
@@ -29,9 +28,6 @@ const manifest = defineManifest({
       js: ["src/content/index.tsx"],
     },
   ],
-  background: {
-    service_worker: "src/serviceWorker/serviceWorker.ts",
-  },
 });
 
 export default defineConfig({

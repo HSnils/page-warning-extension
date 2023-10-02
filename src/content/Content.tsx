@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useUrlsQuery, useWarningQuery } from "../hooks";
 import { isUrlsMatchingWithCurrentUrl } from "../utils";
 import { BannerWarning } from "./warnings/bannerWarning/BannerWarning";
-import BorderWarning from "./warnings/borderWarning/BorderWarning";
 
 export const Content = () => {
   const {
@@ -29,8 +28,6 @@ export const Content = () => {
   }
 
   switch (warningType) {
-    case "border":
-      return <BorderWarning />;
     case "banner":
     default:
       return <BannerWarning />;
