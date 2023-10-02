@@ -65,30 +65,32 @@ export const CustomizeBannerDrawer = () => {
           <DrawerHeader>Customize the warning</DrawerHeader>
 
           <DrawerBody>
-            <RadioGroup
-              onChange={async (
-                value: ReturnType<
-                  typeof useWarningQuery
-                >["data"]["warningType"],
-              ) => {
-                setUpdatedWarningProperties((warning) => ({
-                  ...warning,
-                  warningType: value,
-                }));
-              }}
-              value={
-                updatedWarningProperties.warningType ?? existingWarningType
-              }
-              marginBottom="8px"
-            >
-              <Stack direction="column">
-                {WARNING_TYPES.map((type) => (
-                  <Radio key={type} value={type}>
-                    {type}
-                  </Radio>
-                ))}
-              </Stack>
-            </RadioGroup>
+            {WARNING_TYPES.length > 1 && (
+              <RadioGroup
+                onChange={async (
+                  value: ReturnType<
+                    typeof useWarningQuery
+                  >["data"]["warningType"],
+                ) => {
+                  setUpdatedWarningProperties((warning) => ({
+                    ...warning,
+                    warningType: value,
+                  }));
+                }}
+                value={
+                  updatedWarningProperties.warningType ?? existingWarningType
+                }
+                marginBottom="8px"
+              >
+                <Stack direction="column">
+                  {WARNING_TYPES.map((type) => (
+                    <Radio key={type} value={type}>
+                      {type}
+                    </Radio>
+                  ))}
+                </Stack>
+              </RadioGroup>
+            )}
             <FormControl>
               <FormLabel htmlFor="alert-color-picker">
                 Change alert color
