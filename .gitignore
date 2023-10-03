@@ -14,6 +14,7 @@ dist-ssr
 
 chromestore
 *.zip
+.env
 
 # Editor directories and files
 .vscode/*

@@ -2,7 +2,7 @@
   "name": "page-warning-extension",
   "description": "An extension for chrome to display warnings on certain urls",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "bunx --bun vite",
