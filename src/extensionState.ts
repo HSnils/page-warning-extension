@@ -7,6 +7,6 @@ export type State = {
   };
 };
 
-export const WARNING_TYPES = ["banner"] as const;
+export const WARNING_TYPES = ["banner", "border"] as const;
 
 type WarningType = (typeof WARNING_TYPES)[number];
