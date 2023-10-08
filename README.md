@@ -18,7 +18,11 @@ The default warning type, will add a banner warning to the top of a page. Able t
 
 ## How to install
 
-Currently the extention is not added to the store and as such we have to install it manually
+### Download from chrome webstore
+
+Extension is available for download from the chrome webstore here: https://chrome.google.com/webstore/detail/page-warnings/lieobcgcghdpdbomlcodkcbmnhhjhcih
+
+### Build and install manually
 
 1. Clone the repository
 1. Go to directory where you cloned
