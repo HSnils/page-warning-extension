@@ -1,6 +1,7 @@
 name: Update Chrome Extension
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - v*.*.*
